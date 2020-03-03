@@ -1,0 +1,34 @@
+version: '3.1'
+
+networks: 
+  bridge: 
+
+services:
+
+  postgres12:
+    image: 'postgres:12'
+    container_name: "fsma_postgres12"
+    ports:
+      - '5432:5432'
+    environment:
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: fsma_db
+      POSTGRES_USER: fsma	
+      POSTGRES_PASSWORD: $DomBosco$
+    volumes:
+      - '/Users/rogerio/Docker-volumes/fsma/postgresql/data:/var/lib/postgresql/data'
+    networks: 
+      - bridge
+
+  pgadmin4:
+    image: 'dpage/pgadmin4:4.18'
+    container_name: "fsma_pgadmin4"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@fsma.edu.br"
+      PGADMIN_DEFAULT_PASSWORD: "salesiana"
+    ports:
+      - "5000:80"
+    networks: 
+      - bridge
+    depends_on:
+      - postgres12
